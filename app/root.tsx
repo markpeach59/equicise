@@ -1,5 +1,6 @@
-import type { MetaFunction, LoaderFunction } from '@remix-run/node'
-
+import type { MetaFunction, LoaderFunction } from '@remix-run/node';
+import Header from "./components/Header";
+import Footer from "./components/Footer";
 import {
   Links,
   Meta,
@@ -47,8 +48,10 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Meta />
         <Links />
       </head>
-      <body>
+      <body className="container mx-auto">
+        <Header />
         {children}
+        <Footer />
         <ScrollRestoration />
         <Scripts />
       </body>
