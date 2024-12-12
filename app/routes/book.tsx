@@ -1,5 +1,5 @@
 import { useState, useMemo } from "react";
-import type { MetaFunction } from "@remix-run/node";
+import type { ActionFunctionArgs, MetaFunction } from "@remix-run/node";
 import { json, type LoaderFunction, redirect } from "@remix-run/node";
 import {useLoaderData} from "@remix-run/react";
 import { useActionData, useSubmit, Form } from "@remix-run/react";
@@ -59,7 +59,7 @@ export const loader: LoaderFunction = async (args) => {
     return Response.json({options});
 }
 
-export const action = async( {request}) => {
+export const action = async( {request}:ActionFunctionArgs) => {
     const formData = await request.formData();
     const date = formData.get("date");
     const slot = formData.get("slot");

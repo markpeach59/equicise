@@ -33,6 +33,9 @@ export default function Header() {
 <NavigationMenuLink>
 <Link to="/book">Book</Link>
 </NavigationMenuLink>
+<NavigationMenuLink>
+<Link to="/pay">Pay</Link>
+</NavigationMenuLink>
 
 {/*<SignedIn><SignOutButton /></SignedIn>*/}
 
