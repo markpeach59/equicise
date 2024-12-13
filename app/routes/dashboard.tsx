@@ -1,78 +1,41 @@
+import { NavBar } from "~/components/nav-bar";
+import { useUser } from "@clerk/remix";
 
-import type { MetaFunction } from "@remix-run/node";
-import { LoaderFunction, redirect } from "@remix-run/node";
+import { redirect } from "@remix-run/node";
+import type { LoaderFunction } from "@remix-run/node";
+import { getAuth } from "@clerk/remix/ssr.server";
 
-import {mongodb} from "~/utils/db.server";
-import type {User} from '~/utils/types.server';
-
-import {
-    SignInButton,
-    SignOutButton,
-    SignUpButton,
-    SignedIn,
-    SignedOut,
-    UserButton,
-  } from '@clerk/remix'
-
-import { useLoaderData } from "@remix-run/react";
-
-
-export const meta: MetaFunction = () => {
-    return [
-      { title: "Equicise Dashboard" },
-      { name: "description", content: "Client Bookings" },
-    ];
-  };
-
-  
-  
 export const loader: LoaderFunction = async (args) => {
-
-    let db = await mongodb.db("test");
-    let collection = await db.collection("users2");
-    let users = await collection.find({}).toArray();
-
-    console.log('Users -', users);
-
-    let booking = 'Saturday 9:30';
-    let availability = 'None';
-    return Response.json({booking, availability, users});
-}
-
+  const { userId } = await getAuth(args);
+  if (!userId) {
+    return redirect("/sign-in");
+  }
+  return null;
+};
 
 export default function Dashboard() {
-   
-    const { booking } = useLoaderData<{ booking: String }>();
-    const { availability } = useLoaderData<{ availability: String }>();
-    const { users } = useLoaderData<{ users: User[] }>();
+  const { user } = useUser();
 
-
-
-    return (
-        <div className="flex h-screen  justify-center">
-      <div className="flex flex-col gap-16">
-        <h1>Dashboard</h1>
-        <p>Welcome</p>
-
-        <SignedIn>
-        <p>You are signed in!</p>
-
-        <UserButton />
-
-        <div><SignOutButton /></div>
-      </SignedIn>
-
-        <p>Booking : {booking}</p>
-
-        <p>Future Availability : {availability}</p>
-
-<ul>
-{users.map((user:User) => {return(<li key={user._id.toString()}>{user.email} {user._id.toString()}</li>)})}
-</ul>
-        
-
-
-      </div>
-      </div>
-    );
-  }
+  return (
+    <div className="min-h-screen flex flex-col bg-background">
+      <NavBar />
+      <main className="flex-grow container mx-auto px-4 py-8">
+        <h1 className="text-3xl font-bold mb-6 text-foreground">Welcome to Your Dashboard</h1>
+        <p className="text-xl mb-4 text-muted-foreground">
+          Hello, {user?.firstName || 'User'}! This is your protected dashboard.
+        </p>
+        <div className="bg-card text-card-foreground rounded-lg p-6 shadow-md">
+          <h2 className="text-2xl font-semibold mb-4">Your Account Information</h2>
+          <ul className="space-y-2">
+            <li><strong>Name:</strong> {user?.firstName} {user?.lastName}</li>
+            <li><strong>Email:</strong> {user?.emailAddresses[0]?.emailAddress}</li>
+            <li><strong>User ID:</strong> {user?.id}</li>
+          </ul>
+        </div>
+      </main>
+      <footer className="bg-muted p-4 text-center text-muted-foreground">
+        © 2024 Your Company. All rights reserved.
+      </footer>
+    </div>
+  );
+}
