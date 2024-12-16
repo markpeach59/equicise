@@ -21,17 +21,17 @@ export default function Index() {
       <NavBar />
       <main className="flex-grow flex items-center justify-center bg-background">
         <div className="text-center">
-         Hello
          <SignedIn>
             <h1 className="text-4xl font-bold mb-4 text-foreground">Welcome, {user?.firstName || 'User'}!</h1>
-            <p className="text-xl mb-8 text-muted-foreground">Glad to have you back. Ready to explore?</p>
+            <p className="text-xl mb-8 text-muted-foreground">Glad to have you back.</p>
             <Button size="lg" asChild>
               <Link to="/dashboard">Go to Dashboard</Link>
             </Button>
           </SignedIn>
           <SignedOut>
-            <h1 className="text-4xl font-bold mb-4 text-foreground">Welcome to Our Awesome Product</h1>
-            <p className="text-xl mb-8 text-muted-foreground">Discover amazing features that will revolutionize your workflow.</p>
+            <h1 className="text-4xl font-bold mb-4 text-foreground">Welcome</h1>
+            <p className="text-xl mb-2 text-muted-foreground">The EQUICISE Horse Simulator is a powerful training aid for all riders.</p>
+            <p className="text mb-8 text-muted-foreground">If you want to Improve your technique, accelerate your learning, gain fitness and become a better rider book a lesson on the Equicise.<br />30 minute private lessons available Tuesday to Sunday each Week</p>
             <Button size="lg" asChild>
               <Link to="/sign-up">Get Started</Link>
             </Button>

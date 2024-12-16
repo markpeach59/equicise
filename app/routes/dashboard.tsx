@@ -34,7 +34,7 @@ export default function Dashboard() {
         </div>
       </main>
       <footer className="bg-muted p-4 text-center text-muted-foreground">
-        © 2024 Your Company. All rights reserved.
+        © 2024 Equicise Ltd. All rights reserved.
       </footer>
     </div>
   );
